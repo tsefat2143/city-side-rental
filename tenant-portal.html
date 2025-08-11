@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tenant Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+    }
+
+    header {
+      background-color: #343a40;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 10px 0;
+      background-color: #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #007bff;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #0056b3;
+    }
+
+    .portal-section {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .portal-box {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      padding: 20px 25px;
+      margin-bottom: 30px;
+    }
+
+    .portal-box h2 {
+      display: flex;
+      align-items: center;
+      color: #ff8c00;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+
+    .portal-box p {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .portal-box button {
+      margin-top: 10px;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .portal-box button:hover {
+      background-color: #0056b3;
+    }
+
+    textarea, input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Tenant Portal</h1>
+  </header>
+
+  <!-- Navigation Bar -->
+ <nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="available-units.html">Available Units</a></li>
+    <li><a href="tenant-portal.html">Tenant Portal</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+  <main class="portal-section">
+
+    <!-- Rent Payment Info -->
+    <section class="portal-box">
+    <h2>💸 Rent Payment Intent</h2>
+    <form action="https://getform.io/f/apjpkgma" method="POST">
+    <label for="tenant-name">Your Full Name:</label>
+    <input type="text" id="tenant-name" name="tenant-name" required>
+
+    <label for="amount">Amount to Pay ($):</label>
+    <input type="text" id="amount" name="amount" required>
+
+    <label for="payment-method">Preferred Payment Method:</label>
+    <input type="text" id="payment-method" name="payment-method" placeholder="e.g., CashApp, Zelle, Check" required>
+
+    <label for="payment-date">Expected Payment Date:</label>
+    <input type="date" id="payment-date" name="payment-date" required>
+
+    <button type="submit">Submit Payment Info</button>
+    </form>
+</section>
+
+
+    <!-- Maintenance Request Form -->
+    <section class="portal-box">
+    <h2>🔧 Submit a Maintenance Request</h2>
+    <form action="https://getform.io/f/apjpkgma" method="POST">
+    <label for="request">Describe the issue:</label>
+    <textarea id="request" name="request" rows="4" required></textarea>
+    <button type="submit">Submit Request</button>
+    <input type="hidden" name="_redirect" value="thank-you.html">
+    </form>
+    </section>
+
+    <!-- Message the Landlord -->
+    <section class="portal-box">
+    <h2>📩 Message the Landlord</h2>
+    <form action="https://getform.io/f/apjpkgma" method="POST">
+    <label for="tenant-name">Your Name:</label>
+    <input type="text" id="tenant-name" name="tenant-name" required>
+
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" rows="4" required></textarea>
+
+    <button type="submit">Send Message</button>
+    <input type="hidden" name="_redirect" value="thank-you.html">
+    </form>
+    </section>
+
+    <!-- Application Form -->
+    <section class="portal-box">
+   <h2>📝 Apply for a Unit</h2>
+   <form action="https://getform.io/f/apjpkgma" method="POST">
+    <label for="app-name">Full Name:</label>
+    <input type="text" id="app-name" name="app-name" required>
+
+    <label for="app-email">Email Address:</label>
+    <input type="email" id="app-email" name="app-email" required>
+
+    <label for="unit">Unit Interested In:</label>
+    <input type="text" id="unit" name="unit">
+
+    <label for="app-message">Message:</label>
+    <textarea id="app-message" name="app-message" rows="4"></textarea>
+
+    <button type="submit">Submit Application</button>
+    <input type="hidden" name="_redirect" value="thank-you.html">
+   </form>
+   </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="text-align: center; padding: 20px 0; background: #f1f1f1;">
+    <p>&copy; 2025 CitySide Property Rentals</p>
+  </footer>
+
+</body>
+</html>
+
+
+

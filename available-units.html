@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Units</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 10px 0;
+      background-color: #ffffff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      margin: 0;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #007bff;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #0056b3;
+    }
+
+    .units-section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .unit {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .unit img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .unit-info {
+      margin-top: 15px;
+    }
+
+    .unit-info h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .unit-info .price {
+      font-weight: bold;
+      color: #007BFF;
+      margin-bottom: 10px;
+    }
+
+    .unit-info a {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #007BFF;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .gallery img {
+      width: 30%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .gallery img {
+        width: 48%;
+      }
+    }
+  </style>
+  <script>
+    // JavaScript to allow image preview on click
+    document.addEventListener('DOMContentLoaded', () => {
+      const galleries = document.querySelectorAll('.gallery');
+
+      galleries.forEach(gallery => {
+        const mainImage = gallery.parentElement.parentElement.querySelector('img');
+        gallery.querySelectorAll('img').forEach(img => {
+          img.addEventListener('click', () => {
+            mainImage.src = img.src;
+            mainImage.alt = img.alt;
+          });
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Available Units</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="available-units.html">Available Units</a></li>
+      <li><a href="tenant-portal.html">Tenant Portal</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="units-section">
+    <!-- Unit 1 -->
+    <div class="unit">
+      <img src="unit1_main.jpg" alt="Unit 1 Main Image">
+      <div class="unit-info">
+        <h3>Modern 2-Bedroom Apartment</h3>
+        <p>226 Oakbend Lane, Amherst, NY 14226</p>
+        <p>850 sq ft · 2 Bed · 1 Bath</p>
+        <p class="price">$1,250/month</p>
+
+        <div class="gallery">
+          <img src="unit1_1.jpg" alt="Unit 1 Living Room">
+          <img src="unit1_2.jpg" alt="Unit 1 Bedroom">
+          <img src="unit1_3.jpg" alt="Unit 1 Kitchen">
+          <img src="unit1_4.jpg" alt="Unit 1 Bathroom">
+          <img src="unit1_5.jpg" alt="Unit 1 Balcony">
+        </div>
+
+        <a href="tenant-portal.html">Apply Now</a>
+      </div>
+    </div>
+
+    <!-- Unit 2 -->
+    <div class="unit">
+      <img src="unit3_1.jpg" alt="Unit 2 Main Image">
+      <div class="unit-info">
+        <h3>Cozy 1-Bedroom Unit</h3>
+        <p>154 Wexford Court, Buffalo, NY 14223</p>
+        <p>600 sq ft · 1 Bed · 1 Bath</p>
+        <p class="price">$950/month</p>
+
+        <div class="gallery">
+          <img src="unit3_2.jpg" alt="Unit 2 Photo 1">
+          <img src="unit3_3.jpg" alt="Unit 2 Photo 2">
+          <img src="unit3_4.jpg" alt="Unit 2 Photo 3">
+          <img src="unit3_5.jpg" alt="Unit 2 Photo 4">
+        </div>
+
+        <a href="tenant-portal.html">Apply Now</a>
+      </div>
+    </div>
+
+    <!-- Unit 3 -->
+    <div class="unit">
+      <img src="unit2_1.jpg" alt="Unit 3 Main Image">
+      <div class="unit-info">
+        <h3>Spacious 3-Bedroom Apartment</h3>
+        <p>491 Brookmere Drive, Tonawanda, NY 14150</p>
+        <p>1,200 sq ft · 3 Bed · 2 Bath</p>
+        <p class="price">$1,650/month</p>
+
+        <div class="gallery">
+          <img src="unit2_2.jpg" alt="Unit 3 Photo 1">
+          <img src="unit2_3.jpg" alt="Unit 3 Photo 2">
+          <img src="unit2_4.jpg" alt="Unit 3 Photo 3">
+          <img src="unit2_5.jpg" alt="Unit 3 Photo 4">
+        </div>
+
+        <a href="tenant-portal.html">Apply Now</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="text-align: center; padding: 20px 0; background: #f1f1f1;">
+    <p>&copy; 2025 CitySide Property Rentals</p>
+  </footer>
+</body>
+</html>
+
