@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
+.register-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #00aaff, #0066cc);
+    color: #fff;
+}
+
+.register-div {
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.register-div h2 {
+    font-size: 2rem;
+    font-family: "Bree Serif", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.register-div input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: white;
+    transition: 0.3s ease;
+}
+
+.register-div input:focus {
+    outline: none;
+    background-color: rgba(0, 212, 255, 0.3); 
+}
+
+.register-div button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #00aaff;  
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.register-div button:hover {
+    background-color: #0099cc; 
+    transform: scale(1.05);  
+}
+
+.register-div p {
+    color: #ddd;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-family: sans-serif;
+}
+
+.register-div p span {
+    transition: all 0.3s ease-in-out;
+    color: #00d4ff;
+}
+
+.register-div p span:hover {
+    color: #00d4ff; 
+    cursor: pointer;
+}

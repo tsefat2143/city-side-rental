@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
+.CTA-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.CTA-wrapper .image-div {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+.CTA-wrapper .image-div img {
+    width: 100%;
+    height: 65vh;
+    display: block;
+}
+
+.CTA-wrapper .image-div::before {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+    content: "";
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+.CTA-wrapper .text-overlay {
+    z-index: 1;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+.CTA-wrapper .text-overlay h2 {
+    width: 100%;
+    font-size: 2rem;
+    font-family: "Bree Serif", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.CTA-wrapper .text-overlay button {
+    padding: 0.6em;   
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: 3px solid #3b82f6;
+    color: white;
+}
+
+.CTA-wrapper .text-overlay button:hover {
+    cursor: pointer;
+    background-color: #3b82f6;
+    transition: all 0.5s ease-in-out;
+}
