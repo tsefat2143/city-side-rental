@@ -1,5 +1,5 @@
-import React from 'react'
 import './register.css'
+
 const register = () => {
   return (
     <div className="register-wrapper">

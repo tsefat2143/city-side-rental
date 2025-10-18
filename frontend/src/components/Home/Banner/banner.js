@@ -9,7 +9,7 @@ const banner = () => {
         </div>
         <div className="text-overlay">
             <h1>
-              Welcome to Spotlight Estates <br/>
+              Welcome to City Side Rental<br/>
               Check Out Our Listings
             </h1>
         </div>
