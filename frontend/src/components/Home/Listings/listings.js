@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 const Listings = () => {
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+
 
     return (
         <div className="listings-wrapper">

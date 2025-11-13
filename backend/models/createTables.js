@@ -1,6 +1,6 @@
 const dataBase = require("../database");
 
-let createTables= async () => {
+let createTables = async () => {
     try {
         //Newsletter Subscribers
         await dataBase.query(`

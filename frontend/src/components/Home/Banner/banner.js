@@ -9,7 +9,7 @@ const banner = () => {
         </div>
         <div className="text-overlay">
             <h1>
-              Welcome to City Side Rental<br/>
+              Welcome to New York Side Rentals<br/>
               Check Out Our Listings
             </h1>
         </div>
