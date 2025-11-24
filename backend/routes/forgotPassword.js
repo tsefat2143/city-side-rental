@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
     }
 
     try {
-        const [results] = await dataBase("Select * FROM users WHERE email = ?", [email]);
+        const [results] = await dataBase.query("Select * FROM users WHERE email = ?", [email]);
 
         if (results.length === 0) {
             return res.status(404).json({error: "No account found with that email"})
@@ -23,8 +23,10 @@ router.post("/", async (req, res) => {
 
         //Reset Token
         const resetToken = jwt.sign({email}, process.env.JWT_RESET_TOKEN, {
-            expiresIn: "1hr"
+            expiresIn: "15m"
         });
+
+        const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
         //Send email with reset Token
         const transporter = nodemailer.createTransport({
@@ -35,13 +37,15 @@ router.post("/", async (req, res) => {
             }
         });
 
-        const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
-            subject: "Password Reset",
-            html: `<p>Click <a href="${resetUrl}">here</a> to reset your password. Link expires in 1 hour.</p>`
+            subject: "Password Reset Request",
+            html: `
+                <h3>Reset Your Password</h3>
+                <p>Click the link below to reset your password. This link will expire in 15 minutes.</p>
+                <a href="${resetURL}">${resetURL}</a>
+            `
         });
 
         res.status(200).json({message: "Reset Link Sent To Your Email"});

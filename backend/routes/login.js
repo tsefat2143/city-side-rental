@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
         }
 
         const token = jwt.sign(
-            {user_id: user.user_id, email: user.email},
+            {user_id: user.user_id, email: user.email, full_name: user.full_name},
             process.env.JWT_SECRET,
             {expiresIn: "1h"}
         );
@@ -41,8 +41,6 @@ router.post("/", async (req, res) => {
             process.env.JWT_REFRESH_TOKEN,
             {expiresIn: "3d"}
         );
-
-        console.log("✅ User authenticated successfully:", email);
 
         res.status(200).json({
             message: "Login Successful",

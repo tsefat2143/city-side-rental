@@ -11,13 +11,12 @@ const verifyToken = (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || "yourSecretKey");
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded; //Save user info in request
         next(); //continue route handler
     } catch (error) {
         console.log("JWT verification failed:", error);
         res.status(401).json({error: "Invalid or expired token"})
-        
     }
 }
 

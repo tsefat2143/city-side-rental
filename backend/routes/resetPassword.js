@@ -18,11 +18,11 @@ router.post("/:token", async (req, res) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_RESET_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_RESET_TOKEN);
         const hashedPassword = await bcrypt.hash(newPassword, 12);
 
         await dataBase.query("UPDATE users SET password_hash = ? WHERE email = ?", [hashedPassword, decoded.email]);
-        res.status(400).json({message: "Password Reset Successful"})
+        res.status(200).json({message: "Password Reset Successful"})
     } catch (error) {
         console.log("Error: ", error);
         res.status(400).json({error: "Invalid or expired token"})

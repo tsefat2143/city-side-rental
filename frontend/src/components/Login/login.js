@@ -40,7 +40,7 @@ const Login = () => {
         setEmail("");
         setPassword("");
 
-        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => navigate("/dashboard"), 1000);
       }
       else {
         setMessage(data.error || "Login Failed");

@@ -28,7 +28,7 @@ const ForgotPassword = () => {
       });
 
       const data = await response.json();
-      setMessage(data.message || "Check Your Email For Instructions");      
+      setMessage(data.message || data.error);      
     } catch (error) {
       console.log(error);
       setMessage("Something went wrong")
