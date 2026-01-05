@@ -6,6 +6,10 @@ const verifyToken = require("../middleware/authMiddleware");
 router.get("/", verifyToken, async (req, res) => {
     try {
         const userId = req.user.user_id || req.user_id ;
+        console.log("User ID:", req.user.user_id );
+        console.log("ID:", req.user_id);
+        
+        
         const [results] = await dataBase.query("SELECT user_id, full_name, email from users WHERE user_id = ? LIMIT 1", [userId]);
 
         if (results.length === 0) {

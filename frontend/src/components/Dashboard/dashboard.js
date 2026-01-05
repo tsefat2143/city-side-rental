@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
+import ListingsPanel from './ListingsPanel';
 import "./dashboard.css";
 
 const Dashboard = () => {
@@ -11,6 +12,8 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const token = accessToken || localStorage.getItem("accessToken");
+      console.log("TOKEN:", token);
+      
 
       if (!token) {
         navigate("/login");
@@ -23,7 +26,8 @@ const Dashboard = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
-          }
+          },
+          credentials: "include"
         });
 
         if (res.status === 401 || res.status === 403) {
@@ -33,8 +37,8 @@ const Dashboard = () => {
         }
 
         const data = await res.json();
-        console.log("DASHBOARD RESPONSE:", data);
-        
+        console.log("DASHBOARD RESPONSE:",data);
+                
         if (!res.ok) {
           console.log("Dashboard Fetch Error:", data);
           setUser(null);
@@ -44,10 +48,10 @@ const Dashboard = () => {
         setUser(data.user);
       } catch (error) {
         console.log("Fetch Error:", error);
-        navigate(".login");
+        navigate("/login");
       }
-      fetchUser();
-    }
+    };
+    fetchUser();
   }, [accessToken, navigate]);
 
   if (!user) return <p id="loading">Loading...</p>;
@@ -55,7 +59,9 @@ const Dashboard = () => {
   return (
     <div className="dashboard-wrapper">
         <div className="dashboard-div">
-            <h2>Welcome {user.full_name}</h2>
+            <h1>Hello {user.full_name}</h1>
+            <button class="add-btn" onClick={() => navigate("/add-listing")}>+ Add Listing</button>
+            <ListingsPanel />
         </div>
     </div>
   )

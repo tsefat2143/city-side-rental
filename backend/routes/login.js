@@ -14,8 +14,6 @@ router.post("/", async (req, res) => {
         return res.status(400).json({error: "Please Enter both email and password"});
     }
 
-    console.log("Login request received:", req.body);
-
     try {
         const [results] = await dataBase.query("Select * FROM users WHERE email = ?", [email]);
 

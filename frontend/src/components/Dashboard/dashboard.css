@@ -1,3 +1,89 @@
-#loading{
-    padding-top: 400px;
+.dashboard-wrapper {
+  max-width: 1500px;
+  margin: auto;
+  padding: 100px 0;
+  font-family: sans-serif;
+}
+
+.dashboard-wrapper .dashboard-div h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+/* Add Button */
+.add-btn {
+  display: block;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background: none;
+  color: #3b82f6; /* Default text color */
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  border: 2px solid #3b82f6;
+  position: relative;
+  transition: color 0.3s ease; /* Add smooth transition for text color */
+  overflow: hidden; /* Prevent background from overflowing the button */
+}
+
+.add-btn::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%; /* Fill the entire height of the button */
+  background: #3b82f6; /* Background color for the button */
+  bottom: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+  z-index: -1; /* Ensure the background stays behind the text */
+}
+
+.add-btn:hover {
+  color: white; /* Change text color to white on hover */
+  cursor: pointer;
+}
+
+.add-btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Listings Grid */
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.listing-card {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+}
+
+.listing-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Activity Log */
+.activity-log {
+  margin-top: 40px;
+}
+
+.activity-log ul {
+  list-style: none;
+  padding: 0;
+}
+
+.activity-log li {
+  background: #f8f8f8;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
 }

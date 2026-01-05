@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav>
       <div className="nav-logo">
-        <Link to="/">Spotlight Estates</Link>
+        <Link to="/">New York Side Rentals</Link>
       </div>
 
       {/* Hamburger Menu Icon */}
@@ -28,7 +28,6 @@ const Navbar = () => {
           <li><NavLink to="/register" activeclassname="active">Register</NavLink></li>
           <li><NavLink to="/login" activeclassname="active">Sign In</NavLink></li>
           <li><NavLink to="/available-units" activeclassname="active">Availability</NavLink></li>
-          <li><NavLink to="/contact" activeclassname="active">Contact</NavLink></li>
         </ul>
       </div>
     </nav>
