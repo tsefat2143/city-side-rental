@@ -27,6 +27,7 @@ app.use("/api/forgot-password", forgotPasswordRoute);
 app.use("/api/reset-password", resetPasswordRoute);
 app.use("/api/dashboard", dashboardRoute);
 app.use("/api/listings", listingsRoute);
+app.use("/uploads", express.static("uploads")); //need this for images
 
 app.listen(port, () => {
     console.log(`Port listening ${port}`);    
