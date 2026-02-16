@@ -50,11 +50,16 @@ const ListingsPanel = () => {
                     {listings.map((listing) => (
                         <li key={listing.listings_id} className="listings-item">
                             <h3 className="listing-title">{listing.title}</h3>
+                            <img src={listing.image} className="listing-image" alt="rental-image" />
                             <p className="listing-address">{listing.address}</p>
                             <p className="listing-details">
                                 {listing.bedrooms} Bed • {listing.bathrooms} Bath • {listing.square_feet} sq ft
                             </p>
                             <p className="listing-rent">${listing.monthly_rent} / month</p>
+                            <div className="buttons-div">
+                                <button>Edit</button>
+                                <button>Delete</button>
+                            </div>
                         </li>
                     ))}
                 </ul>
@@ -63,4 +68,4 @@ const ListingsPanel = () => {
     )
 }
 
-export default ListingsPanel
+export default ListingsPanel;

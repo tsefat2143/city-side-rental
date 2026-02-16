@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const port = 5000;
+const path = require("path")
 
 //Import Routers
 const newsletterRoute = require("./routes/newsletterSubscribers");
@@ -27,7 +28,7 @@ app.use("/api/forgot-password", forgotPasswordRoute);
 app.use("/api/reset-password", resetPasswordRoute);
 app.use("/api/dashboard", dashboardRoute);
 app.use("/api/listings", listingsRoute);
-app.use("/uploads", express.static("uploads")); //need this for images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(port, () => {
     console.log(`Port listening ${port}`);    

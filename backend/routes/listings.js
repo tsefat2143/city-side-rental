@@ -22,6 +22,20 @@ router.get("/user", verifyToken, async (req, res) => {
             `SELECT listings_id, title, monthly_rent, bedrooms, bathrooms, square_feet, address, created_at FROM listings WHERE user_id = ? ORDER BY created_at DESC`, 
             [userId]
         );
+
+        //Add image URL for each listing
+        for (let i=0; i < results.length; i++) {
+            const listing = results[i];
+            
+            const [imageUrl] = await dataBase.query(
+                `SELECT photo_url from listing_photos WHERE listings_id = ? ORDER BY created_at DESC LIMIT 1`,
+                [listing.listings_id]
+            );
+
+            console.log(imageUrl);
+            
+            listing.image = `http://localhost:5000/uploads/${imageUrl[0].photo_url}`;
+        }  
         res.json(results);
     } catch (error) {
         console.log(error);
@@ -54,10 +68,6 @@ router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
             }
         }
         res.json({success: true});
-
-        console.log("BODY:", req.body);
-        console.log("FILES:", req.files);
-
     } catch (error) {
         console.log("ADD LISTING ERROR:", error);
         res.status(500).json({error: "Server Error"});

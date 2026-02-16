@@ -50,40 +50,46 @@
   transform-origin: bottom left;
 }
 
-/* Listings Grid */
-.listings-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+/* Style Buttons  */
+.buttons-div{
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.listing-card {
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background: white;
+.buttons-div button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5em 1em;
+  margin: 1em 0 0 0;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.3s ease
 }
 
-.listing-card img {
-  width: 100%;
+.buttons-div button:hover {
+  cursor: pointer;
+  background-color: #2060c6;
+}
+
+/* Listing Panel CSS */
+.listings-list {
+    display: flex;
+}
+
+.listing-title {
+  text-align: center;
+  line-height: 2;
+}
+
+.listings-item {
+    list-style: none;
+    border: 2px solid #3b82f6;
+    border-radius: 8px;
+    padding: 1em;
+    margin: 1em 1em 0 0;
+}
+
+.listing-image {
   height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* Activity Log */
-.activity-log {
-  margin-top: 40px;
-}
-
-.activity-log ul {
-  list-style: none;
-  padding: 0;
-}
-
-.activity-log li {
-  background: #f8f8f8;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 10px;
+  width: 250px;
 }

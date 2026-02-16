@@ -60,7 +60,7 @@ const Dashboard = () => {
     <div className="dashboard-wrapper">
         <div className="dashboard-div">
             <h1>Hello {user.full_name}</h1>
-            <button class="add-btn" onClick={() => navigate("/add-listing")}>+ Add Listing</button>
+            <button className="add-btn" onClick={() => navigate("/add-listing")}>+ Add Listing</button>
             <ListingsPanel />
         </div>
     </div>
