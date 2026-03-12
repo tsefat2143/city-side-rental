@@ -1,4 +1,4 @@
-const dataBase = require("../database");
+const dataBase = require("./database");
 
 let createTables = async () => {
     try {
