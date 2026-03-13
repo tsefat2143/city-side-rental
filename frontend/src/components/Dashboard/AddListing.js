@@ -12,6 +12,9 @@ const AddListing = () => {
     const [bathrooms, setBathrooms] = useState("");
     const [square_feet, setSquareFeet] = useState("");
     const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [borough, setBorough] = useState("");
+    const [zip, setZip] = useState("");
     const [pet_policy, setPetPolicy] = useState(null);
     const [contact_email, setEmail] = useState("");
     const [message, setMessage] = useState("");
@@ -23,7 +26,7 @@ const AddListing = () => {
         e.preventDefault();
         setMessage("");
 
-        if (!title || !details || !monthly_rent || !bedrooms || !bathrooms || !square_feet || !address || !contact_email || pet_policy === null) {
+        if (!title || !details || !monthly_rent || !bedrooms || !bathrooms || !square_feet || !address || !city || !borough || !zip || !contact_email || pet_policy === null) {
             setMessage("Please Complete The Entire Form");
             return;
         }
@@ -45,6 +48,9 @@ const AddListing = () => {
             formData.append("bathrooms", bathrooms);
             formData.append("square_feet", square_feet);
             formData.append("address", address);
+            formData.append("city", city);
+            formData.append("borough", borough);
+            formData.append("zip", zip);
             formData.append("contact_email", contact_email);
             formData.append("pet_policy", pet_policy);
 
@@ -94,6 +100,9 @@ const AddListing = () => {
                 <input name="bathrooms" type="number" value={bathrooms} placeholder="Bathrooms" onChange={(e) => setBathrooms(e.target.value)} />
                 <input name="square_feet" type="number" value={square_feet} placeholder="Square Feet" onChange={(e) => setSquareFeet(e.target.value)} />
                 <input name="address" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                <input name="city" placeholder="City" value={address} onChange={(e) => setCity(e.target.value)} />
+                <input name="borough" placeholder="Borough" value={address} onChange={(e) => setBorough(e.target.value)} />
+                <input name="zip" placeholder="Zip Code" value={address} onChange={(e) => setZip(e.target.value)} />
                 <input name="contact_email" placeholder="Contact Email" value={contact_email} onChange={(e) => setEmail(e.target.value)} />
               
                 <p>Are Pets Allowed</p>

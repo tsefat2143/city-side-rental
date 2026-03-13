@@ -46,12 +46,14 @@ router.get("/user", verifyToken, async (req, res) => {
 router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
     try {
         const userId = req.user.user_id;
-        const { title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, pet_policy, contact_email } = req.body;
+        const { title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, city, borough, zip, pet_policy, contact_email } = req.body;
         
+        const fullAddress = `${address}, ${city}, ${borough}, ${zip}`;
+
         const [listingResult] = await dataBase.query(
             `INSERT INTO listings (user_id, title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, pet_policy, contact_email)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [userId, title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, pet_policy, contact_email]
+            [userId, title, details, monthly_rent, bedrooms, bathrooms, square_feet, fullAddress, pet_policy, contact_email]
         );
 
         const listingId = listingResult.insertId;

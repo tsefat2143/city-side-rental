@@ -46,6 +46,8 @@ const ListingsPanel = () => {
             ) : listings.length === 0 ? (
                 <p className="empty-text">You Have Not Created Any Listings</p>
             ) : (
+                <>
+                <p>You have {listings.length} listings</p>
                 <ul className="listings-list">
                     {listings.map((listing) => (
                         <li key={listing.listings_id} className="listings-item">
@@ -63,6 +65,7 @@ const ListingsPanel = () => {
                         </li>
                     ))}
                 </ul>
+                </>
             )}
         </div>
     )

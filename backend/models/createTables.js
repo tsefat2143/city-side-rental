@@ -31,7 +31,7 @@ let createTables = async () => {
                 bedrooms INT NOT NULL,
                 bathrooms INT NOT NULL,
                 square_feet INT NOT NULL,
-                address VARCHAR(50) NOT NULL,
+                address VARCHAR(150) NOT NULL,
                 pet_policy BOOLEAN,
                 contact_email VARCHAR(40),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
