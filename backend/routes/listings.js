@@ -76,6 +76,27 @@ router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
     }
 });
 
+router.delete("/:id", verifyToken, async (req, res) => {
+    try {
+        const listingId = req.params.id;
+        const userId = req.user.user_id;
+
+        const [result] = await dataBase.query(
+            `DELETE FROM listings WHERE listings_id = ? AND user_id = ?`,
+            [listingId, userId]
+        );
+        
+        if (result.affectedRows === 0) {
+            return res.json({message: "Listing Not Found"});
+        }
+
+        res.json({message: "Listing Deleted Successfully"})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: "Server Error"});
+    }
+})
+
 
 
 module.exports = router;

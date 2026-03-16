@@ -112,7 +112,7 @@
 }
 
 /* Button */
-.listing-div button {
+.listing-div .submit-btn {
   margin-top: 12px;
   padding: 14px;
   font-size: 16px;
@@ -127,18 +127,39 @@
 }
 
 /* Hover effect */
-.listing-div button:hover:not(:disabled) {
+.listing-div .submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(37, 99, 235, 0.45);
 }
 
+/* Cancel button */
+.listing-div .cancel-btn {
+  margin-top: 12px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  background: #fff;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover */
+.listing-div .cancel-btn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+  transform: translateY(-2px);
+}
+
 /* Click */
-.listing-div button:active:not(:disabled) {
+.listing-div .submit-btn:active:not(:disabled), .listing-div .cancel-btn:active {
   transform: scale(0.97);
 }
 
 /* Disabled */
-.listing-div button:disabled {
+.listing-div .submit-btn:disabled {
   background: #9ca3af;
   cursor: not-allowed;
   box-shadow: none;

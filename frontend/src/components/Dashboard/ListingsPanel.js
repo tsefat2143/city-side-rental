@@ -36,6 +36,34 @@ const ListingsPanel = () => {
         fetchListings();
     }, [])
 
+// Delete Function
+    const deleteListing = async () => {
+        const confirmDelete = window.confirm("Delete this listing?");
+        if (!confirmDelete) return;
+
+        try {
+            const token = localStorage.getItem("accessToken"); 
+            const res = await fetch(`http://localhost:5000/api/listings/${listingId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.log("Delete Failed");
+                return;
+            }
+
+            //Remove Listings instantly
+            setListings(prev => prev.filter(listing => listing.listings_id !== id));
+        } catch (error) {
+            console.log("Delete error:", error);
+        }
+    }
+
     return (
         <div className="panel-container">
             <div className="panel-header">
@@ -60,7 +88,7 @@ const ListingsPanel = () => {
                             <p className="listing-rent">${listing.monthly_rent} / month</p>
                             <div className="buttons-div">
                                 <button>Edit</button>
-                                <button>Delete</button>
+                                <button onClick={() => deleteListing(listing.listings_id)}>Delete</button>
                             </div>
                         </li>
                     ))}
