@@ -37,8 +37,8 @@ const ListingsPanel = () => {
     }, [])
 
 // Delete Function
-    const deleteListing = async () => {
-        const confirmDelete = window.confirm("Delete this listing?");
+    const deleteListing = async (listingId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this listing?");
         if (!confirmDelete) return;
 
         try {
@@ -46,19 +46,22 @@ const ListingsPanel = () => {
             const res = await fetch(`http://localhost:5000/api/listings/${listingId}`, {
                 method: "DELETE",
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 }
             });
 
             const data = await res.json();
 
-            if (!res.ok) {
-                console.log("Delete Failed");
-                return;
+            if (res.ok) {
+                //Remove Listings instantly
+                setListings((prevListings) =>
+                prevListings.filter((listing) => listing.listings_id !== listingId));
             }
-
-            //Remove Listings instantly
-            setListings(prev => prev.filter(listing => listing.listings_id !== id));
+            else {
+                console.log("Delete Failed:", data);
+                return;
+            }           
         } catch (error) {
             console.log("Delete error:", error);
         }
