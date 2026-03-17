@@ -77,10 +77,21 @@ router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
 });
 
 router.delete("/:id", verifyToken, async (req, res) => {
+    const connection = await dataBase.getConnection();
+    
     try {
         const listingId = req.params.id;
         const userId = req.user.user_id;
 
+        await connection.beginTransaction();
+
+        //Get file names before deletion
+        const [photos] = await dataBase.query(
+            `SELECT photo_url FROM listing_photos WHERE listings_id = ?`,
+            [listingId]
+        );
+
+        //Delete listing 
         const [result] = await dataBase.query(
             `DELETE FROM listings WHERE listings_id = ? AND user_id = ?`,
             [listingId, userId]
@@ -90,6 +101,21 @@ router.delete("/:id", verifyToken, async (req, res) => {
             return res.json({message: "Listing Not Found"});
         }
 
+        await connection.commit();
+
+        //Delete from files from upload folder
+        const fs = require("fs");
+        const path = require("path");
+
+        for (const photo of photos) {
+            const filePath = path.join(__dirname, "..", "uploads", photo.photo_url);
+            
+            try {
+                await fs.promises.unlink(filePath);
+            } catch (error) {
+                console.log("File deletion failed:", filePath, error);
+            }
+        }
         res.json({message: "Listing Deleted Successfully"})
     } catch (error) {
         console.log(error);
