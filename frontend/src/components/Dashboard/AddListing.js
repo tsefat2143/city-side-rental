@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./addListing.css";
 
 const AddListing = () => {
     const [images, setImages] = useState([]);
+    const [previewUrls, setPreviewUrls] = useState([]);
+
     const [title, setTitle] = useState("");
     const [details, setDetails] = useState("");
     const [monthly_rent, setRent] = useState("");
@@ -17,10 +19,15 @@ const AddListing = () => {
     const [zip, setZip] = useState("");
     const [pet_policy, setPetPolicy] = useState(null);
     const [contact_email, setEmail] = useState("");
+
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
     const {accessToken} = useAuth();
     const navigate = useNavigate();
+
+    //Fix ref for file input
+    const fileInputRef = useRef(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,8 +37,6 @@ const AddListing = () => {
             setMessage("Please Complete The Entire Form");
             return;
         }
-
-        console.log(images.length);
         
         if (images.length === 0) {
             setMessage("Please add at least one image");
@@ -83,6 +88,39 @@ const AddListing = () => {
         }
     }
 
+    const handleImageChange = (e) => {
+        const files = Array.from(e.target.files);
+
+        const newImages = [...images, ...files];
+
+        if (newImages.length > 10) {
+            setMessage("Maximum of 10 images allowed")
+            return;
+        }
+
+        const newPreviews = [
+            ...previewUrls,
+            ...files.map(file => URL.createObjectURL(file))
+        ];
+
+        setImages(newImages);
+        setPreviewUrls(newPreviews);
+        setMessage("");
+    };
+
+    const handleRemoveImage = (indexToRemove) => {
+        const updatedImages = images.filter((_, index) => index !== indexToRemove);
+        const updatedPreviews = previewUrls.filter((_, index) => index !== indexToRemove);
+
+        setImages(updatedImages);
+        setPreviewUrls(updatedPreviews);
+
+        //Reset file input
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    }
+
 
   return (
     <div className="listing-wrapper">
@@ -92,7 +130,24 @@ const AddListing = () => {
             {message && <p className="form-message">{message}</p>}
 
             <form onSubmit={handleSubmit}>
-                <input type="file" multiple accept="image/*" onChange={(e) => setImages(e.target.files)}/>
+                {/* Image Upload */}
+                <input type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleImageChange}/>
+
+                {/* Image Count */}
+                    <p>{images.length} image(s) selected</p>
+                
+                {/* Image Preview */}
+                <div className="preview-container">
+                    {previewUrls.map((url, index) => (
+                        <div key={index} className="preview-item"> 
+                            <img src={url} alt="preview"/>
+                            <button type="button" className="remove-btn" onClick={() => handleRemoveImage(index)}>
+                                ✕
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
                 <input name="title" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
                 <textarea name="details" placeholder="Details" value={details} onChange={(e) => setDetails(e.target.value)} />
                 <input name="monthly_rent" type="number" value={monthly_rent} placeholder="Monthly Rent" onChange={(e) => setRent(e.target.value)} />
@@ -101,7 +156,17 @@ const AddListing = () => {
                 <input name="square_feet" type="number" value={square_feet} placeholder="Square Feet" onChange={(e) => setSquareFeet(e.target.value)} />
                 <input name="address" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
                 <input name="city" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />
-                <input name="borough" placeholder="Borough" value={borough} onChange={(e) => setBorough(e.target.value)} />
+                
+                {/* Borough Dropdown */}
+                <select name="borough" value={borough} onChange={(e) => setBorough(e.target.value)}>
+                    <option value="" disabled>Select Borough</option>
+                    <option value="Manhattan">Manhattan</option>
+                    <option value="Bronx">Bronx</option>
+                    <option value="Brooklyn">Brooklyn</option>
+                    <option value="Queens">Queens</option>
+                    <option value="Staten Island">Staten Island</option>
+                </select>
+                
                 <input name="zip" placeholder="Zip Code" value={zip} onChange={(e) => setZip(e.target.value)} />
                 <input name="contact_email" placeholder="Contact Email" value={contact_email} onChange={(e) => setEmail(e.target.value)} />
               

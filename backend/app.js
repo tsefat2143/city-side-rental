@@ -28,8 +28,25 @@ app.use("/api/forgot-password", forgotPasswordRoute);
 app.use("/api/reset-password", resetPasswordRoute);
 app.use("/api/dashboard", dashboardRoute);
 app.use("/api/listings", listingsRoute);
+
+//Multer Error Handler
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.use((err, req, res, next) => {
+    if (err.name === "MulterError") {
+        if (err.code === "LIMIT_UNEXPECTED_FILE") {
+            return res.status(400).json({error: "Maximum of 10 images allowed"});
+        }
+        if (err.code === "LIMIT_FILE_SIZE") {
+            return res.status(400).json({ error: "File too large (max 5MB)" });
+        }
+        return res.status(400).json({ error: err.message });
+    }
+    if (err.message === "Only images allowed") {
+        return res.status(400).json({ error: err.message });
+    }
+    next(err);
+})
 app.listen(port, () => {
     console.log(`Port listening ${port}`);    
 })
