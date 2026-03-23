@@ -6,7 +6,7 @@ const upload = require("../middleware/upload");
 const fs = require("fs");
 const path = require("path");
 
-// Get user listings
+// Get user dashboard
 router.get("/user", verifyToken, async (req, res) => {
     try {
         const userId = req.user.user_id;
@@ -67,6 +67,102 @@ router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
         res.status(500).json({error: "Server Error"});
     }
 });
+
+// Get Listing
+router.get("/:id", verifyToken, async (req, res) => {
+    try {
+        const listingId = req.params.id;
+        const userId = req.user.user_id;
+
+        const [rows] = await dataBase.query(
+            `SELECT title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, pet_policy, contact_email FROM listings WHERE listings_id = ? AND user_id = ?`,
+            [listingId, userId]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({error: "Listing not found"});
+        }
+
+        const [images] = await dataBase.query(
+            `SELECT photo_url FROM listing_photos WHERE listings_id = ?`,
+            [listingId]
+        );
+        res.json({...rows[0], images});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: "Server error"});
+    }
+})
+
+// Edit listing
+router.put("/:id", verifyToken, upload.array("images", 10), async (req, res) => {
+    const connection = await dataBase.getConnection();
+
+    try {
+        const listingId = req.params.id;
+        const userId = req.user.user_id;
+
+        const { title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, city, borough, zip, pet_policy, contact_email, deleteImages } = req.body;
+        const fullAddress = `${address}, ${city}, ${borough}, ${zip}`;
+
+        await connection.beginTransaction();
+
+        //Update listing
+        const [result] = await connection.query(
+            `UPDATE listings SET title = ?, details = ?, monthly_rent = ?, bedrooms = ?, bathrooms = ?, square_feet = ?, address = ?, pet_policy = ?, contact_email = ?
+            WHERE listings_id = ? AND user_id = ?`,
+            [title, details, monthly_rent, bedrooms, bathrooms, square_feet, fullAddress, pet_policy, contact_email, listingId, userId]
+        );
+
+        if (result.affectedRows === 0) {
+            await result.rollback();
+            return res.status(404).json({error: "Listing was not found"});
+        }
+
+        //Delete selected images
+        if (deleteImages) {
+            const imageToDelete = JSON.parse(deleteImages);
+
+            for (const fileName of imageToDelete) {
+                // Remove from DB
+                await connection.query(`DELETE FROM listing_photos WHERE listings_id = ? and photo_url = ?`,
+                    [listingId, fileName]
+                );
+
+                // Remove from file system
+                const filePath = path.join(__dirname, "..", "uploads", fileName);
+
+                try {
+                    await fs.promises.unlink(filePath)                    
+                } catch (error) {
+                    console.log("File delete failed:", fileName);
+                }
+            }
+        }
+
+        //Add new images
+        if (req.files && req.files.length > 0) {
+            for (const file of req.files) {
+                await connection.query(
+                   `
+                    INSERT INTO listing_photos (listings_id, photo_url)
+                    VALUES (?, ?)
+                    `,
+                    [listingId, file.filename]
+                );
+            }
+        }
+        await connection.commit();
+
+        res.json({message: "Listing updated successfully!"});
+    } catch (error) {
+        await connection.rollback();
+        console.log("PUT ERROR:", error);
+        res.status(500).json({error: "Server error"});
+    } finally {
+        connection.release();
+    }
+})
 
 // Delete listing 
 router.delete("/:id", verifyToken, async (req, res) => {
