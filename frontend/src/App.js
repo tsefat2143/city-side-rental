@@ -7,7 +7,8 @@ import { AuthProvider } from './components/Context/AuthContext';
 import ForgotPassword from './components/ForgotPassword/forgotPassword';
 import ResetPassword from './components/ResetPassword/resetPassword';
 import Dashboard from './components/Dashboard/dashboard';
-import AddListing from './components/Dashboard/AddListing';
+import AddListing from './components/Dashboard/Add Listing/AddListing';
+import EditListing from './components/Dashboard/Edit Listing/EditListing';
 import './App.css';
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-listing" element={<AddListing />} />
+          <Route path="/edit-listing" element={<EditListing />} />
         </Routes>
       </Router>
     </AuthProvider>
