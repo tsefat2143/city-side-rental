@@ -90,7 +90,7 @@ const ListingsPanel = () => {
                             </p>
                             <p className="listing-rent">${listing.monthly_rent} / month</p>
                             <div className="buttons-div">
-                                <button>Edit</button>
+                                <button onClick={() => navigate(`/edit-listing/${listing.listings_id}`)}>Edit</button>
                                 <button onClick={() => deleteListing(listing.listings_id)}>Delete</button>
                             </div>
                         </li>

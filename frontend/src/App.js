@@ -25,7 +25,7 @@ function App() {
           <Route path="/reset-password/:token" element={<ResetPassword/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-listing" element={<AddListing />} />
-          <Route path="/edit-listing" element={<EditListing />} />
+          <Route path="/edit-listing/:id" element={<EditListing />} />
         </Routes>
       </Router>
     </AuthProvider>
