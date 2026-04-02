@@ -83,10 +83,14 @@ router.get("/:id", verifyToken, async (req, res) => {
             return res.status(404).json({error: "Listing not found"});
         }
 
+        console.log("API HIT");
+
         const [images] = await dataBase.query(
             `SELECT photo_url FROM listing_photos WHERE listings_id = ?`,
             [listingId]
         );
+        console.log(images);
+        
         res.json({...rows[0], images});
     } catch (error) {
         console.log(error);

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ListingsPanel = () => {
     const [loading, setLoading] = useState(true);
     const [listings, setListings] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchListings = async () => {
