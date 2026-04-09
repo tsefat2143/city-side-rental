@@ -83,7 +83,7 @@ const Register = () => {
             <h2>Create Account</h2>
             <form onSubmit={handleSubmit}>
 
-              {message && (<p style={{ color: message.includes("successfully") ? "green" : "red" }}>{message}</p>)}
+              {message && (<p style={{ color: message.includes("Successfully") ? "green" : "red" }}>{message}</p>)}
               
                 <input type="text" placeholder="Enter Your Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
                 <input type="email" placeholder="Enter Your Email Address" value={email} onChange={(e) => setEmail(e.target.value)}/>

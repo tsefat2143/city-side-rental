@@ -37,7 +37,7 @@ const Dashboard = () => {
         }
 
         const data = await res.json();
-        console.log("DASHBOARD RESPONSE:",data);
+        console.log("DASHBOARD RESPONSE:", data);
                 
         if (!res.ok) {
           console.log("Dashboard Fetch Error:", data);

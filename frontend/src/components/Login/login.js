@@ -58,7 +58,7 @@ const Login = () => {
             <h2>Sign In</h2>
             <form onSubmit={handleSubmit}>
 
-              {message && (<p style={{ color: message.includes("success") ? "green" : "red" }}>{message}</p>)}
+              {message && (<p style={{ color: message.includes("Successful") ? "green" : "red" }}>{message}</p>)}
 
                 <input type="email" placeholder="Enter Your Email Address" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" placeholder="Enter Your Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
