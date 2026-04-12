@@ -3,15 +3,18 @@ const app = express();
 const cors = require("cors");
 const port = 5000;
 const path = require("path")
+const cookieParser = require("cookie-parser");
 
 //Import Routers
 const newsletterRoute = require("./routes/newsletterSubscribers");
 const registerRoute = require("./routes/register");
 const loginRoute = require("./routes/login");
+const logoutRoute = require("./routes/logout");
 const forgotPasswordRoute = require("./routes/forgotPassword");
 const resetPasswordRoute = require("./routes/resetPassword");
 const dashboardRoute = require("./routes/dashboard");
 const listingsRoute = require("./routes/listings");
+const refreshRoute = require("./routes/refreshToken")
 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -19,11 +22,15 @@ app.use(cors({
 }))
 
 app.use(express.json());
+app.use(cookieParser());
+
 
 //Mount router to api
 app.use("/api/newsletter", newsletterRoute);
+app.use("/api/refresh", refreshRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/login", loginRoute);
+app.use("/api/logout", logoutRoute);
 app.use("/api/forgot-password", forgotPasswordRoute);
 app.use("/api/reset-password", resetPasswordRoute);
 app.use("/api/dashboard", dashboardRoute);

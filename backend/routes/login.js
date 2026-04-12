@@ -18,36 +18,59 @@ router.post("/", async (req, res) => {
         const [results] = await dataBase.query("Select * FROM users WHERE email = ?", [email]);
 
         if (results.length === 0) {
-            return res.status(404).json({error: "User Not Found"});
+            return res.status(401).json({error: "Invalid Credentials"});
         }
 
         const user = results[0];
+        
+        //Compare Paswords
         const isMatch = await bcrypt.compare(password, user.password_hash);
 
         if (!isMatch) {
             return res.status(401).json({error: "Invalid Credentials"});
         }
 
-        const token = jwt.sign(
-            {user_id: user.user_id, email: user.email, full_name: user.full_name},
+        //Create access token
+        const accessToken = jwt.sign(
+            {   user_id: user.user_id,
+                email: user.email, 
+                full_name: user.full_name,
+                type: "access"
+            },
             process.env.JWT_SECRET,
-            {expiresIn: "2h"}
+            {
+                expiresIn: process.env.JWT_ACCESS_EXPIRES
+            }
         );
 
         const refreshToken = jwt.sign(
-            {user_id: user.user_id},
-            process.env.JWT_REFRESH_TOKEN,
-            {expiresIn: "3d"}
+            {
+                user_id: user.user_id,
+                type: "refresh"
+            },
+            process.env.JWT_REFRESH_SECRET,
+            {
+                expiresIn: process.env.JWT_REFRESH_EXPIRES
+            }
         );
 
-        res.status(200).json({
+        //Send refresh token as HTTP only cookie
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        //Send response
+        return res.status(200).json({
             message: "Login Successful",
             user: {
                 user_id: user.user_id,
                 full_name: user.full_name,
                 email: user.email,
             },
-            accessToken: token, refreshToken,
+            accessToken
         });
 
     } catch (error) {

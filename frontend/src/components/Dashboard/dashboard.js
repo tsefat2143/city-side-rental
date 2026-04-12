@@ -6,14 +6,12 @@ import "./dashboard.css";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
-  const {accessToken} = useAuth();
+  const {accessToken, refreshAccessToken} = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = accessToken || localStorage.getItem("accessToken");
-      console.log("TOKEN:", token);
-      
+      const token = accessToken || localStorage.getItem("accessToken");      
 
       if (!token) {
         navigate("/login");
@@ -21,6 +19,7 @@ const Dashboard = () => {
       }
 
       try {
+        //First request
         const res = await fetch("http://localhost:5000/api/dashboard", {
           method: "GET",
           headers: {
@@ -31,20 +30,34 @@ const Dashboard = () => {
         });
 
         if (res.status === 401 || res.status === 403) {
-          localStorage.removeItem("accessToken");
+          const newToken = await refreshAccessToken();
+
+          if(!newToken){
+            navigate("/login");
+            return;
+          }
+
+          //Try request again with no token
+          res = await fetch("http://localhost:5000/api/dashboard", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${newToken}`,
+            },
+            credentials: "include"
+          });
+        }
+
+        const data = await res.json();
+
+        //Still fails then go to login page
+        if (!res.ok) {
+          setUser(null);
           navigate("/login");
           return;
         }
 
-        const data = await res.json();
-        console.log("DASHBOARD RESPONSE:", data);
-                
-        if (!res.ok) {
-          console.log("Dashboard Fetch Error:", data);
-          setUser(null);
-          return;
-        }
-
+        //Succcess
         setUser(data.user);
       } catch (error) {
         console.log("Fetch Error:", error);
@@ -52,7 +65,7 @@ const Dashboard = () => {
       }
     };
     fetchUser();
-  }, [accessToken, navigate]);
+  }, [accessToken, refreshAccessToken, navigate]);
 
   if (!user) return <p id="loading">Loading...</p>;
 

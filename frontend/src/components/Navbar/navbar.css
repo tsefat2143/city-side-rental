@@ -45,8 +45,7 @@ nav .nav-menu .nav-links{
 }
 
 .nav-links li a:hover, .nav-links li button.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    display: inline-block;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .nav-links li a.active {
@@ -55,7 +54,7 @@ nav .nav-menu .nav-links{
 
 /* Search Input */
 .nav-links li input[type="text"] {
-    padding: 6px 10px;
+    padding: 8px 10px;
     font-size: 1rem;
     border-radius: 5px;
     border: none;
@@ -127,14 +126,10 @@ nav .menu-toggle {
         display: block;
     }
 
-       .nav-links li a:hover,
-    .nav-links li button.nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 5px;
-    }
-
     .nav-links li input[type="text"] {
         width: 100%;
+        max-width: 500px;
+        display: block;
         margin: 0 auto;
         padding: 10px;
         border-radius: 5px;
