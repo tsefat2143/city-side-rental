@@ -49,7 +49,7 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li><NavLink to="/dashboard" onClick={handleLinkClick} className={getNavClass}>Dashboard</NavLink></li>
+              <li><NavLink to="/dashboard" onClick={handleLinkClick} className={getNavClass}>My Listings</NavLink></li>
               <li>
                 <button onClick={handleLogout} className="nav-link logout-btn">
                   Logout

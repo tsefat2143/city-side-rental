@@ -52,9 +52,9 @@ export const AuthProvider = ({ children }) => {
 
         if (isExpired) {
           // Try refreshing
-          const newToken = await refreshAccessToken();
-          if (!newToken) return;
-        } else {
+          await refreshAccessToken();
+        } 
+        else {
           setUser(decoded);
           setAccessToken(storedToken);
         }
