@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import { authFetch } from '../Utils/AuthFetch';
-import ListingsPanel from './ListingsPanel';
+import ListingsPanel from './Listing Panel/ListingsPanel';
 import "./dashboard.css";
 
 const Dashboard = () => {

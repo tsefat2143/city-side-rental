@@ -1,0 +1,79 @@
+.total-listings {
+    margin: 15px 0;
+    font-size: 1.2rem;
+}
+
+.total-listings span {
+    font-weight: 600;
+}
+
+/* Listings Panel */
+.listings-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5em;
+}
+
+.listing-title {
+  text-align: center;
+  line-height: 2;
+}
+
+.listings-item {
+    list-style: none;
+    border: 2px solid #3b82f6;
+    border-radius: 8px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.listing-image {
+  height: auto;
+  width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+/* Style Buttons  */
+.buttons-div{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.buttons-div button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5em 1.5em;
+  margin: 1em 0 0 0;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.3s ease
+}
+
+.buttons-div button:hover {
+  cursor: pointer;
+  background-color: #2060c6;
+}
+
+@media (max-width: 1100px) {
+  .listings-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .listings-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .listings-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .buttons-div button {
+    padding: 0.5em 2.5em;
+  }
+}

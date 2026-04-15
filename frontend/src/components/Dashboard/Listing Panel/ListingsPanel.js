@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import "./ListingsPanel.css"
 
 const ListingsPanel = () => {
     const [loading, setLoading] = useState(true);
@@ -78,10 +79,10 @@ const ListingsPanel = () => {
             {loading ? (
                 <p>Loading Your Listings</p>
             ) : listings.length === 0 ? (
-                <p className="empty-text">You Have Not Created Any Listings</p>
+                <p className="total-listings">You Have Not Created Any Listings</p>
             ) : (
                 <>
-                <p>You have {listings.length} listings</p>
+                <p className="total-listings">You have <span>{listings.length}</span> listings</p>
                 <ul className="listings-list">
                     {listings.map((listing) => (
                         <li key={listing.listings_id} className="listings-item">
