@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./addListing.css";
@@ -13,10 +13,10 @@ const AddListing = () => {
     const [bedrooms, setBedrooms] = useState("");
     const [bathrooms, setBathrooms] = useState("");
     const [square_feet, setSquareFeet] = useState("");
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
+    const [street_address, setStreetAddress] = useState("");
+    const [neighborhood, setNeighborhood] = useState("");
     const [borough, setBorough] = useState("");
-    const [zip, setZip] = useState("");
+    const [zip_code, setZipCode] = useState("");
     const [pet_policy, setPetPolicy] = useState(null);
     const [contact_email, setEmail] = useState("");
 
@@ -29,17 +29,38 @@ const AddListing = () => {
     //Fix ref for file input
     const fileInputRef = useRef(null);
 
+    useEffect(() => {
+        return () => {
+            previewUrls.forEach(url => URL.revokeObjectURL(url));
+        };
+    }, [previewUrls]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
 
-        if (!title || !details || !monthly_rent || !bedrooms || !bathrooms || !square_feet || !address || !city || !borough || !zip || !contact_email || pet_policy === null) {
+        if (!title || !details || !monthly_rent || !bedrooms || !bathrooms || !square_feet || !street_address || !neighborhood || !borough || !zip_code || !contact_email || pet_policy === null) {
             setMessage("Please Complete The Entire Form");
+            return;
+        }
+
+        if (!title.trim() || !details.trim()) {
+           setMessage("Fields cannot be empty");
             return;
         }
         
         if (images.length === 0) {
             setMessage("Please add at least one image");
+            return;
+        }
+
+        if (!/^[0-9]{5}$/.test(zip_code)) {
+            setMessage("Zip code must be 5 digits");
+            return;
+        }
+
+        if (monthly_rent <= 0 || bedrooms <= 0 || bathrooms <= 0 || square_feet <= 0) {
+            setMessage("Please enter valid positive numbers");
             return;
         }
 
@@ -52,10 +73,10 @@ const AddListing = () => {
             formData.append("bedrooms", bedrooms);
             formData.append("bathrooms", bathrooms);
             formData.append("square_feet", square_feet);
-            formData.append("address", address);
-            formData.append("city", city);
+            formData.append("street_address", street_address);
+            formData.append("neighborhood", neighborhood);
             formData.append("borough", borough);
-            formData.append("zip", zip);
+            formData.append("zip_code", zip_code);
             formData.append("contact_email", contact_email);
             formData.append("pet_policy", pet_policy);
 
@@ -154,8 +175,8 @@ const AddListing = () => {
                 <input name="bedrooms" type="number" value={bedrooms} placeholder="Bedrooms" onChange={(e) => setBedrooms(e.target.value)} />
                 <input name="bathrooms" type="number" value={bathrooms} placeholder="Bathrooms" onChange={(e) => setBathrooms(e.target.value)} />
                 <input name="square_feet" type="number" value={square_feet} placeholder="Square Feet" onChange={(e) => setSquareFeet(e.target.value)} />
-                <input name="address" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
-                <input name="city" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />
+                <input name="street_address" placeholder="Street Address" value={street_address} onChange={(e) => setStreetAddress(e.target.value)} />
+                <input name="neighborhood" placeholder="Neighborhood" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} />
                 
                 {/* Borough Dropdown */}
                 <select name="borough" value={borough} onChange={(e) => setBorough(e.target.value)}>
@@ -167,7 +188,7 @@ const AddListing = () => {
                     <option value="Staten Island">Staten Island</option>
                 </select>
                 
-                <input name="zip" placeholder="Zip Code" value={zip} onChange={(e) => setZip(e.target.value)} />
+                <input name="zip_code" placeholder="Zip Code" value={zip_code} maxLength={5} onChange={(e) => setZipCode(e.target.value.replace(/\D/g, ""))} />
                 <input name="contact_email" placeholder="Contact Email" value={contact_email} onChange={(e) => setEmail(e.target.value)} />
               
                 <p>Are Pets Allowed</p>

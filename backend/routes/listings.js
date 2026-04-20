@@ -12,7 +12,7 @@ router.get("/user", verifyToken, async (req, res) => {
         const userId = req.user.user_id;
 
         const [results] = await dataBase.query(
-            `SELECT listings_id, title, monthly_rent, bedrooms, bathrooms, square_feet, address, created_at FROM listings WHERE user_id = ? ORDER BY created_at DESC`, 
+            `SELECT listings_id, title, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code FROM listings WHERE user_id = ? ORDER BY created_at DESC`, 
             [userId]
         );
 
@@ -38,14 +38,21 @@ router.get("/user", verifyToken, async (req, res) => {
 router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
     try {
         const userId = req.user.user_id;
-        const { title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, city, borough, zip, pet_policy, contact_email } = req.body;
+        const { title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email } = req.body;
         
-        const fullAddress = `${address}, ${city}, ${borough}, ${zip}`;
+        const zipRegex = /^[0-9]{5}$/;
+        if (!zipRegex.test(zip_code)) {
+            return res.status(400).json({ error: "Zip code must be exactly 5 digits" });
+        }
+
+        if (monthly_rent <= 0 || bedrooms <= 0 || bathrooms <= 0 || square_feet <= 0) {
+            return res.status(400).json({ error: "Invalid numeric values" });
+        }
 
         const [listingResult] = await dataBase.query(
-            `INSERT INTO listings (user_id, title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, pet_policy, contact_email)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [userId, title, details, monthly_rent, bedrooms, bathrooms, square_feet, fullAddress, pet_policy, contact_email]
+            `INSERT INTO listings (user_id, title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [userId, title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email]
         );
 
         const listingId = listingResult.insertId;
@@ -75,7 +82,7 @@ router.get("/:id", verifyToken, async (req, res) => {
         const userId = req.user.user_id;
 
         const [rows] = await dataBase.query(
-            `SELECT title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, pet_policy, contact_email FROM listings WHERE listings_id = ? AND user_id = ?`,
+            `SELECT title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email FROM listings WHERE listings_id = ? AND user_id = ?`,
             [listingId, userId]
         );
 
@@ -83,13 +90,10 @@ router.get("/:id", verifyToken, async (req, res) => {
             return res.status(404).json({error: "Listing not found"});
         }
 
-        console.log("API HIT");
-
         const [images] = await dataBase.query(
             `SELECT photo_url FROM listing_photos WHERE listings_id = ?`,
             [listingId]
         );
-        console.log(images);
         
         res.json({...rows[0], images});
     } catch (error) {
@@ -106,16 +110,20 @@ router.put("/:id", verifyToken, upload.array("images", 10), async (req, res) => 
         const listingId = req.params.id;
         const userId = req.user.user_id;
 
-        const { title, details, monthly_rent, bedrooms, bathrooms, square_feet, address, city, borough, zip, pet_policy, contact_email, deleteImages } = req.body;
-        const fullAddress = `${address}, ${city}, ${borough}, ${zip}`;
+        const { title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email, deleteImages } = req.body;
+
+        const zipRegex = /^[0-9]{5}$/;
+        if (!zipRegex.test(zip_code)) {
+            return res.status(400).json({ error: "Zip code must be exactly 5 digits" });
+        }
 
         await connection.beginTransaction();
 
         //Update listing
         const [result] = await connection.query(
-            `UPDATE listings SET title = ?, details = ?, monthly_rent = ?, bedrooms = ?, bathrooms = ?, square_feet = ?, address = ?, pet_policy = ?, contact_email = ?
+            `UPDATE listings SET title = ?, details = ?, monthly_rent = ?, bedrooms = ?, bathrooms = ?, square_feet = ?, street_address = ?, neighborhood = ?, borough = ?, zip_code = ?, pet_policy = ?, contact_email = ?
             WHERE listings_id = ? AND user_id = ?`,
-            [title, details, monthly_rent, bedrooms, bathrooms, square_feet, fullAddress, pet_policy, contact_email, listingId, userId]
+            [title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email, listingId, userId]
         );
 
         if (result.affectedRows === 0) {

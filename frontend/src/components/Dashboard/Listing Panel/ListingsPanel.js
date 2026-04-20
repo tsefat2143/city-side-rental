@@ -86,13 +86,15 @@ const ListingsPanel = () => {
                 <ul className="listings-list">
                     {listings.map((listing) => (
                         <li key={listing.listings_id} className="listings-item">
-                            <h3 className="listing-title">{listing.title}</h3>
                             <img src={listing.image} className="listing-image" alt="rental-image" />
-                            <p className="listing-address">{listing.address.split(",")[0]}</p>
+                            <h3 className="listing-title">{listing.title}</h3>
+                    {/* Address, Bedroom, Bathroom */}
+                            <p className="listing-address">{listing.street_address}, {listing.neighborhood}, {listing.borough}, {listing.zip_code}</p>
                             <p className="listing-details">
                                 {listing.bedrooms} Bed • {listing.bathrooms} Bath • {listing.square_feet} sq ft
                             </p>
                             <p className="listing-rent">${listing.monthly_rent} / month</p>
+                    {/* Edit and Delete Buttons */}
                             <div className="buttons-div">
                                 <button onClick={() => navigate(`/edit-listing/${listing.listings_id}`)}>Edit</button>
                                 <button onClick={() => deleteListing(listing.listings_id)}>Delete</button>

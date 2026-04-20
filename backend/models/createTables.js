@@ -31,9 +31,12 @@ let createTables = async () => {
                 bedrooms INT NOT NULL,
                 bathrooms INT NOT NULL,
                 square_feet INT NOT NULL,
-                address VARCHAR(150) NOT NULL,
-                pet_policy BOOLEAN,
-                contact_email VARCHAR(40),
+                street_address VARCHAR(150) NOT NULL,
+                neighborhood VARCHAR(150) NOT NULL,
+                borough VARCHAR(13) NOT NULL,
+                zip_code VARCHAR(5) NOT NULL,
+                pet_policy BOOLEAN NOT NULL,
+                contact_email VARCHAR(40) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
             );
