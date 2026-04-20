@@ -6,6 +6,54 @@ const upload = require("../middleware/upload");
 const fs = require("fs");
 const path = require("path");
 
+// Public Listings
+router.get("/", async (req, res) => {
+    try {
+        const { borough, minRent, maxRent, bedrooms, zip_code, page = 1 } = req.query;
+
+        const limit = 10;
+        const offset = (page - 1) * limit;
+
+        let query = `SELECT listings_id, title, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, created_at FROM listings WHERE 1=1`;
+
+        let params = [];
+
+        if (borough) {
+            query += " AND borough = ?";
+            params.push(borough);
+        }
+
+        if (minRent) {
+            query += " AND monthly_rent >= ?";
+            params.push(minRent);
+        }
+
+        if (maxRent) {
+            query += " AND monthly_rent <= ?";
+            params.push(maxRent);
+        }
+
+        if (bedrooms) {
+            query += " AND bedrooms >= ?";
+            params.push(bedrooms);
+        }
+
+        if (zip_code) {
+            query += " AND zip_code = ?";
+            params.push(zip_code);
+        }
+
+        query += " ORDER BY created_at DESC LIMIT ? OFFSET ?";
+        params.push(limit, offset);
+
+        const [rows] = await dataBase.query(query, params);
+
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 // Get user dashboard
 router.get("/user", verifyToken, async (req, res) => {
     try {
@@ -32,7 +80,7 @@ router.get("/user", verifyToken, async (req, res) => {
         console.log(error);
         res.status(500).json({error: "Server error"});
     }
-});
+})
 
 // Create Listing
 router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
@@ -73,17 +121,16 @@ router.post("/", verifyToken, upload.array("images", 10), async (req, res) => {
         console.log("ADD LISTING ERROR:", error);
         res.status(500).json({error: "Server Error"});
     }
-});
+})
 
-// Get Listing
-router.get("/:id", verifyToken, async (req, res) => {
+// Get Single Listing
+router.get("/:id", async (req, res) => {
     try {
         const listingId = req.params.id;
-        const userId = req.user.user_id;
 
         const [rows] = await dataBase.query(
-            `SELECT title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email FROM listings WHERE listings_id = ? AND user_id = ?`,
-            [listingId, userId]
+            `SELECT title, details, monthly_rent, bedrooms, bathrooms, square_feet, street_address, neighborhood, borough, zip_code, pet_policy, contact_email FROM listings WHERE listings_id = ?`,
+            [listingId]
         );
 
         if (rows.length === 0) {
@@ -102,7 +149,7 @@ router.get("/:id", verifyToken, async (req, res) => {
     }
 })
 
-// Edit listing
+// Update listing
 router.put("/:id", verifyToken, upload.array("images", 10), async (req, res) => {
     const connection = await dataBase.getConnection();
 
